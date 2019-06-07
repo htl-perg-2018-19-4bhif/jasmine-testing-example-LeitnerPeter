@@ -17,9 +17,23 @@ export class AppComponent {
 
   vatCategories = VatCategory;
 
-  constructor(private invoiceCalculator: InvoiceCalculatorService) { }
+  constructor(private invoiceCalculator: InvoiceCalculatorService) {
+    this.invoice = this.invoiceCalculator.CalculateInvoice(this.invoiceLines);
+   }
 
   addInvoice() {
-    // ADD necessary code here
+    let category;
+    if(this.vatCategoryString==="Drinks"){
+      category = this.vatCategories.Drinks;
+    } else {
+      category = this.vatCategories.Food;
+    }
+    let newInvoiceLine: InvoiceLine = {
+      product: this.product,
+      vatCategory: category,
+      priceInclusiveVat: this.priceInclusiveVat
+    }
+    this.invoiceLines.push(newInvoiceLine);
+    this.invoice = this.invoiceCalculator.CalculateInvoice(this.invoiceLines);
   }
 }
